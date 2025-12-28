@@ -223,8 +223,8 @@ export default function JobDetector() {
           <div className={`pill ${result?.label?.toLowerCase() === 'fraud' ? 'danger' : 'safe'}`}>
             {result?.label || 'Unknown'}
           </div>
-          {typeof result?.confidence === 'number' && (
-            <p>Confidence: {(result.confidence * 100).toFixed(1)}%</p>
+          {typeof result?.probability === 'number' && (
+            <p>Probability: {(result.probability * 100).toFixed(1)}%</p>
           )}
           {result?.details && (
             <details>

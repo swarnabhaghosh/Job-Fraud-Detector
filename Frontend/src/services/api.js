@@ -39,7 +39,7 @@ async function handleResponse(res) {
   // Your backend sends { result, score }, frontend wants { label, confidence }
   return {
     label: data.result,
-    confidence: data.score
+    probability: data.probability
   };
 }
 async function safeText(res) {

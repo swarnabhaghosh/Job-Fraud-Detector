@@ -53,9 +53,12 @@ def predict():
 
     prediction = model.predict(padded)[0][0]
 
+    is_fake = prediction > 0.5
+
     return jsonify({
-        "score": float(prediction),
-        "result": "Fake Job" if prediction > 0.5 else "Real Job"
+        "result": "Fake Job" if is_fake else "Real Job",
+        "probability": float(prediction if is_fake else (1 - prediction))
     })
+
 
 app.run(debug=True)
