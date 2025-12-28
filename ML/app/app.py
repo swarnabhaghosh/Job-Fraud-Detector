@@ -9,8 +9,8 @@ app = Flask(__name__)
 CORS(app)
 
 # Load model & tokenizer
-model = tf.keras.models.load_model("lstm_model.keras")
-tokenizer = pickle.load(open("tokenizer.pkl", "rb"))
+model = tf.keras.models.load_model("models/lstm_model.keras")
+tokenizer = pickle.load(open("models/tokenizer.pkl", "rb"))
 
 MAX_LEN = 300
 

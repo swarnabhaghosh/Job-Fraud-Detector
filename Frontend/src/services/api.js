@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:5000';
 
 // EXPECTED BACKEND (example):
 // POST {BASE_URL}/predict/paragraph  body: { text }
@@ -8,31 +8,40 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
 // -> { label, confidence, details? }
 
 export async function predictFromParagraph(text) {
-  const res = await fetch(`${BASE_URL}/predict/paragraph`, {
+  // We send the text inside a 'description' key to match your backend logic
+  const res = await fetch(`${BASE_URL}/predict`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text })
+    body: JSON.stringify({ description: text }) 
   });
-  if (!res.ok) {
-    const msg = await safeText(res);
-    throw new Error(msg || `HTTP ${res.status}`);
-  }
-  return res.json();
+  return handleResponse(res);
 }
 
 export async function predictFromFields(payload) {
-  const res = await fetch(`${BASE_URL}/predict/structured`, {
+  // Your backend already knows how to handle a full object at /predict
+  const res = await fetch(`${BASE_URL}/predict`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
+  return handleResponse(res);
+}
+
+// Helper to clean up the code
+async function handleResponse(res) {
   if (!res.ok) {
     const msg = await safeText(res);
     throw new Error(msg || `HTTP ${res.status}`);
   }
-  return res.json();
+  const data = await res.json();
+  
+  // MAP BACKEND KEYS TO FRONTEND KEYS
+  // Your backend sends { result, score }, frontend wants { label, confidence }
+  return {
+    label: data.result,
+    confidence: data.score
+  };
 }
-
 async function safeText(res) {
   try {
     return await res.text();
