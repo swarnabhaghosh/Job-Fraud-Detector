@@ -220,12 +220,42 @@ export default function JobDetector() {
       {result && (
         <div className="result">
           <h3>Prediction</h3>
-          <div className={`pill ${result?.label?.toLowerCase() === 'fraud' ? 'danger' : 'safe'}`}>
-            {result?.label || 'Unknown'}
+          <div
+            className={`pill ${
+              result?.label === 'Fake Job' ? 'danger' : 'safe'
+            }`}
+          >
+            {result?.label}
           </div>
+
           {typeof result?.probability === 'number' && (
             <p>Probability: {(result.probability * 100).toFixed(1)}%</p>
           )}
+
+          {result?.label === 'Fake Job' && result?.risk_indicators?.length > 0 && (
+            <div className="risk-box">
+              <h4>Why this job looks suspicious</h4>
+              <ul>
+                {result.risk_indicators.map((reason, idx) => (
+                  <li key={idx}>{reason}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {result.education && (
+            <div className="education-box">
+              <strong>Why this matters:</strong>
+              <p>{result.education}</p>
+            </div>
+          )}
+
+          {result.note && (
+            <small className="note">
+              <strong>Disclaimer:</strong> {result.note}
+            </small>
+          )}
+
           {result?.details && (
             <details>
               <summary>Details</summary>

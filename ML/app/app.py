@@ -21,6 +21,51 @@ def clean_text(text):
     text = re.sub(r"\s+", " ", text)
     return text
 
+def find_risk_indicators(text, data):
+    indicators = []
+    lower_text = text.lower()
+
+    SCAM_KEYWORDS = [
+        "earn money fast",
+        "instant payment",
+        "limited seats",
+        "quick money",
+        "high salary",
+        "no experience"
+    ]
+
+    for kw in SCAM_KEYWORDS:
+        if kw in lower_text:
+            indicators.append(
+                f"Contains phrase '{kw}', which is sometimes used in scam postings"
+            )
+
+    if data.get("has_company_website") is False:
+        indicators.append(
+            "This company has no website, this increases uncertainty"
+        )
+    elif data.get("has_company_website") is None:
+        indicators.append(
+            "Company website information was not provided, which increases uncertainty"
+        )
+
+    if len(lower_text.split()) < 30:
+        indicators.append(
+            "Job post has limited detail, making verification harder"
+        )
+
+    return indicators
+
+def educational_message(indicators):
+    if not indicators:
+        return None
+
+    return (
+        "This job looks suspicious because scam postings often use urgency, "
+        "vague benefits, or omit verifiable company information."
+    )
+
+
 @app.route("/")
 def home():
     return "API is running"
@@ -43,8 +88,14 @@ def predict():
             data.get("requirements", ""),
             data.get("benefits", ""),
             data.get("salary_range", ""),
-            "remote job" if data.get("remote") else "on site job",
-            "company website available" if data.get("has_company_website") else "no company website"
+
+            "remote job" if data.get("remote") is True
+            else "on site job" if data.get("remote") is False
+            else "",
+
+            "company website available" if data.get("has_company_website") is True
+            else "no company website" if data.get("has_company_website") is False
+            else "company website is not mentioned"
         ])
 
     cleaned = clean_text(combined_text)
@@ -52,13 +103,19 @@ def predict():
     padded = pad_sequences(seq, maxlen=MAX_LEN)
 
     prediction = model.predict(padded)[0][0]
-
     is_fake = prediction > 0.5
 
-    return jsonify({
+    response = {
         "result": "Fake Job" if is_fake else "Real Job",
         "probability": float(prediction if is_fake else (1 - prediction))
-    })
+    }
 
+    if is_fake:
+        indicators = find_risk_indicators(cleaned, data)
+        response["risk_indicators"] = indicators
+        response["note"] = "These are risk indicators, not definitive proof."
+        response["education"] = educational_message(indicators)
+
+    return jsonify(response)
 
 app.run(debug=True)
