@@ -4,13 +4,25 @@ import pickle
 import tensorflow as tf
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import re
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+tf.config.threading.set_intra_op_parallelism_threads(1)
+tf.config.threading.set_inter_op_parallelism_threads(1)
+
 
 app = Flask(__name__)
 CORS(app)
 
-# Load model & tokenizer
-model = tf.keras.models.load_model("models/lstm_model.keras")
-tokenizer = pickle.load(open("models/tokenizer.pkl", "rb"))
+model = None
+tokenizer = None
+
+def load_model_once():
+    global model, tokenizer
+    if model is None:
+        model = tf.keras.models.load_model("models/lstm_model.keras")
+        with open("models/tokenizer.pkl", "rb") as f:
+            tokenizer = pickle.load(f)
+
 
 MAX_LEN = 300
 
@@ -70,8 +82,13 @@ def educational_message(indicators):
 def home():
     return "API is running"
 
+@app.route("/", methods=["GET"])
+def health():
+    return {"status": "Backend running"}, 200
+
 @app.route("/predict", methods=["POST"])
 def predict():
+    load_model_once()
 
     if not request.is_json:
         return jsonify({"error": "JSON required"}), 400
@@ -102,7 +119,7 @@ def predict():
     seq = tokenizer.texts_to_sequences([cleaned])
     padded = pad_sequences(seq, maxlen=MAX_LEN)
 
-    prediction = model.predict(padded)[0][0]
+    prediction = model.predict(padded, verbose=0)[0][0]
     is_fake = prediction > 0.5
 
     response = {
