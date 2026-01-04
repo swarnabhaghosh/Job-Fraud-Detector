@@ -73,14 +73,13 @@ The system supports **two types of input**:
 
 ---
 
-## 📸 MVP Screenshots
+##  MVP 
 
 The MVP demonstrates:
 - Paragraph input → Real & Fake job detection  
 - Structured input → Real & Fake job detection  
 - Explanation for suspicious job postings  
 
-(Screenshots included in the presentation)
 
 ---
 
