@@ -83,6 +83,10 @@ def home():
     return "API is running"
 
 @app.route("/", methods=["GET"])
+def home():
+    return "Job Fraud API is running"
+
+@app.route("/", methods=["GET"])
 def health():
     return {"status": "Backend running"}, 200
 
