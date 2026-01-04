@@ -77,11 +77,6 @@ def educational_message(indicators):
         "vague benefits, or omit verifiable company information."
     )
 
-
-@app.route("/")
-def home():
-    return "API is running"
-
 @app.route("/", methods=["GET"])
 def home():
     return "Job Fraud API is running"
