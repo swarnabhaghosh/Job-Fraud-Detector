@@ -5,14 +5,14 @@ The system analyzes job descriptions and predicts whether a job is **Real or Fak
 
 ---
 
-## 🚀 Live Demo
+##  Live Demo
 
 🔗 **Live Website:**  
 https://job-fraud-detector.vercel.app/
 
 ---
 
-## 📖 Problem Statement
+##  Problem Statement
 
 With the rapid growth of online job portals and social media hiring, fake job postings have become a serious concern.  
 Many existing systems only classify jobs as fake or real without explaining *why*, which reduces user trust.
@@ -21,7 +21,7 @@ This project aims to **detect fraudulent job postings** and provide **clear expl
 
 ---
 
-## 💡 Solution Overview
+##  Solution Overview
 
 The Job Fraud Detector uses:
 - **NLP techniques** to understand job descriptions
@@ -34,18 +34,18 @@ The system supports **two types of input**:
 
 ---
 
-## 🧠 Features
+##  Features
 
-- 🔍 Detects **Fake or Real** job postings  
-- ✍️ Supports **Paragraph Input** and **Structured Input**  
-- 🤖 Uses **LSTM (TensorFlow)** for prediction  
-- 📊 Shows **prediction probability**  
-- 🧾 Provides **explanations** for suspicious jobs  
-- 🌐 Simple and user-friendly web interface  
+-  Detects **Fake or Real** job postings  
+-  Supports **Paragraph Input** and **Structured Input**  
+-  Uses **LSTM (TensorFlow)** for prediction  
+-  Shows **prediction probability**  
+-  Provides **explanations** for suspicious jobs  
+-  Simple and user-friendly web interface  
 
 ---
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 
 1. User enters job details via the web interface  
 2. Data is sent to the Flask backend API  
@@ -56,7 +56,7 @@ The system supports **two types of input**:
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 **Frontend**
 - Next.js
@@ -83,7 +83,7 @@ The MVP demonstrates:
 
 ---
 
-## 👥 Contributors (Group Project)
+##  Contributors (Group Project)
 
 - **Swarnabha Ghosh**  
 - **Biswasrita Hazra**  
@@ -92,7 +92,7 @@ The MVP demonstrates:
 
 ---
 
-## 📌 Future Enhancements
+##  Future Enhancements
 
 - Deployment on Google Cloud Platform (GCP)
 - Continuous model retraining with new data
@@ -101,14 +101,14 @@ The MVP demonstrates:
 
 ---
 
-## 📜 Disclaimer
+##  Disclaimer
 
 This system provides **risk indicators**, not definitive proof.  
 Users are advised to verify job postings through official company sources.
 
 ---
 
-## ⭐ Acknowledgement
+##  Acknowledgement
 
 Developed as a group project to address real-world job fraud problems using AI and ML.
 
