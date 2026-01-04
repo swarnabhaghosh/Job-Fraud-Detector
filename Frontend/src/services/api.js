@@ -8,24 +8,33 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:5000'
 // -> { label, confidence, details? }
 
 export async function predictFromParagraph(text) {
-  // We send the text inside a 'description' key to match your backend logic
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), 45000);
+
   const res = await fetch(`${BASE_URL}/predict`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ description: text }) 
+    body: JSON.stringify({ description: text }),
+    signal: controller.signal
   });
+
   return handleResponse(res);
 }
 
 export async function predictFromFields(payload) {
-  // Your backend already knows how to handle a full object at /predict
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), 45000);
+
   const res = await fetch(`${BASE_URL}/predict`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
+    signal: controller.signal
   });
+
   return handleResponse(res);
 }
+
 
 // Helper to clean up the code
 async function handleResponse(res) {

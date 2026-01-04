@@ -66,7 +66,11 @@ export default function JobDetector() {
       }
       setResult(data);
     } catch (err) {
-      setError(err?.message || 'Request failed');
+      if (err.name === 'AbortError') {
+        setError('Server is starting (cold start). Please wait and try again.');
+      } else {
+        setError(err.message || 'Request failed');
+      }
     } finally {
       setLoading(false);
     }

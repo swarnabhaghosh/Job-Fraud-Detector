@@ -19,9 +19,13 @@ tokenizer = None
 def load_model_once():
     global model, tokenizer
     if model is None:
-        model = tf.keras.models.load_model("models/lstm_model.keras")
-        with open("models/tokenizer.pkl", "rb") as f:
-            tokenizer = pickle.load(f)
+        try:
+            model = tf.keras.models.load_model("models/lstm_model.keras")
+            with open("models/tokenizer.pkl", "rb") as f:
+                tokenizer = pickle.load(f)
+        except Exception as e:
+            print("Model loading failed:", e)
+            raise
 
 
 MAX_LEN = 300
@@ -83,7 +87,11 @@ def home():
 
 @app.route("/health", methods=["GET"])
 def health():
-    return {"status": "Backend running"}, 200
+    return jsonify({
+        "status": "ok",
+        "model_loaded": model is not None
+    }), 200
+
 
 @app.route("/predict", methods=["POST"])
 def predict():
