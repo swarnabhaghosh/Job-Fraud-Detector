@@ -81,7 +81,7 @@ def educational_message(indicators):
 def home():
     return "Job Fraud API is running"
 
-@app.route("/", methods=["GET"])
+@app.route("/health", methods=["GET"])
 def health():
     return {"status": "Backend running"}, 200
 
