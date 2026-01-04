@@ -65,6 +65,7 @@ The system supports **two types of input**:
 **Backend**
 - Python
 - Flask REST API
+- Deployed on **Render**
 
 **Machine Learning**
 - TensorFlow
@@ -85,10 +86,10 @@ The MVP demonstrates:
 
 ##  Contributors (Group Project)
 
-- **Swarnabha Ghosh**  
-- **Biswasrita Hazra**  
-- **Bhumi Prasad**  
-- **Soumalyo Kundu**
+- [Swarnabha Ghosh](https://github.com/swarnabhaghosh)
+- [Biswasrita Hazra](https://github.com/Biswasrita)  
+- [Bhumi Prasad](https://github.com/bhumiprasad14)
+- [Soumalyo Kundu](https://github.com/soumalyokundu123)
 
 ---
 
@@ -96,7 +97,7 @@ The MVP demonstrates:
 
 - Deployment on Google Cloud Platform (GCP)
 - Continuous model retraining with new data
-- Integration of advanced NLP models like BERT
+- Integration of advanced models like BERT
 - User authentication and history tracking
 
 ---
